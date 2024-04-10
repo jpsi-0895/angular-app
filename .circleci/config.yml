@@ -40,14 +40,12 @@ jobs:
           name: Deploy to AWS
           command: |
             scp -r dist/* ec2-user@3.111.42.198:.
+
 workflows:
   version: 2
-  build-and-test:
+  build_and_test:
     jobs:
-      # - test-node
-      - build:
-          # requires:
-          #   - test-node
+      - build
       - deploy:
           requires:
             - build
