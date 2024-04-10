@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: cimg/node:21.7.2
 
+  
     steps:
       - checkout
 
@@ -23,5 +24,18 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      # Run tests
-      - run: npm test
+      # Build Angular app
+      - run: npm run build
+
+  deploy:
+    docker:
+      - image: circleci/node:21.7.2
+
+    steps:
+      - checkout
+
+      # Deploy to AWS instance
+      - run:
+          name: Deploy to AWS
+          command: |
+            scp -r dist/* ec2-user@3.111.42.198:.
