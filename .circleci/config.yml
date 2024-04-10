@@ -41,6 +41,7 @@ jobs:
           command: |
             scp -r dist/* ec2-user@3.111.42.198:.
 workflows:
+  version: 2
   build-and-test:
     jobs:
       # - test-node
