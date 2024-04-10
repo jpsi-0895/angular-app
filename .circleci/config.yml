@@ -27,7 +27,7 @@ jobs:
       # Build Angular app
       - run: npm run build
 
-      
+
   deploy:
     docker:
       - image: cimg/node:21.7.2
@@ -40,13 +40,13 @@ jobs:
           name: Deploy to AWS
           command: |
             scp -r dist/* ec2-user@3.111.42.198:.
-# workflows:
-#   build-and-test:
-#     jobs:
-#       # - test-node
-#       - build:
-#           # requires:
-#           #   - test-node
-#       - deploy:
-#           requires:
-#             - build
+workflows:
+  build-and-test:
+    jobs:
+      # - test-node
+      - build:
+          # requires:
+          #   - test-node
+      - deploy:
+          requires:
+            - build
