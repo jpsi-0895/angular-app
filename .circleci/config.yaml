@@ -1,0 +1,27 @@
+versions: "2.1"
+jobs:
+  build:
+    docker:
+      - image: circleci/node:20
+
+    steps:
+      - checkout
+
+      # Restore cached dependencies if they exist
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            # Fall back to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      # Install dependencies
+      - run: npm install
+
+      # Save node modules to cache
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+
+      # Run tests
+      - run: npm test
